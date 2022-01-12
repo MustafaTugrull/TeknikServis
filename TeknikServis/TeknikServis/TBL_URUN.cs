@@ -18,8 +18,6 @@ namespace TeknikServis
         public TBL_URUN()
         {
             this.TBL_URUNHAREKET = new HashSet<TBL_URUNHAREKET>();
-            this.TBL_URUNKABUL = new HashSet<TBL_URUNKABUL>();
-            this.TBL_URUNTAKIP = new HashSet<TBL_URUNTAKIP>();
         }
     
         public int ID { get; set; }
@@ -34,9 +32,5 @@ namespace TeknikServis
         public virtual TBL_KATEGORI TBL_KATEGORI { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TBL_URUNHAREKET> TBL_URUNHAREKET { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TBL_URUNKABUL> TBL_URUNKABUL { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TBL_URUNTAKIP> TBL_URUNTAKIP { get; set; }
     }
 }

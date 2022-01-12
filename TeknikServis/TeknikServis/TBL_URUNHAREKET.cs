@@ -21,6 +21,7 @@ namespace TeknikServis
         public Nullable<System.DateTime> TARIH { get; set; }
         public Nullable<short> ADET { get; set; }
         public Nullable<decimal> FIYAT { get; set; }
+        public string URUNSERINO { get; set; }
     
         public virtual TBL_CARI TBL_CARI { get; set; }
         public virtual TBL_PERSONEL TBL_PERSONEL { get; set; }

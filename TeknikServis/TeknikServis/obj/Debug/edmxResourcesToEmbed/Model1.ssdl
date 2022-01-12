@@ -88,6 +88,38 @@
     <Property Name="TARIH" Type="smalldatetime" />
     <Property Name="TUTAR" Type="decimal" Precision="18" Scale="2" />
   </EntityType>
+  <EntityType Name="TBL_HAKKIMIZDA">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="METIN" Type="varchar" MaxLength="1000" />
+  </EntityType>
+  <EntityType Name="TBL_ILCELER">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="ilce" Type="nvarchar" MaxLength="255" />
+    <Property Name="sehir" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TBL_ILETISIM">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ADSOYAD" Type="varchar" MaxLength="50" />
+    <Property Name="MAIL" Type="varchar" MaxLength="50" />
+    <Property Name="KONU" Type="varchar" MaxLength="50" />
+    <Property Name="MESAJ" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="TBL_ILLER">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="sehir" Type="nvarchar" MaxLength="255" />
+  </EntityType>
   <EntityType Name="TBL_KATEGORI">
     <Key>
       <PropertyRef Name="ID" />
@@ -103,6 +135,7 @@
     <Property Name="BASLIK" Type="varchar" MaxLength="50" />
     <Property Name="ICERIK" Type="varchar" MaxLength="500" />
     <Property Name="DURUM" Type="bit" />
+    <Property Name="TARIH" Type="smalldatetime" />
   </EntityType>
   <EntityType Name="TBL_PERSONEL">
     <Key>
@@ -140,27 +173,29 @@
     <Property Name="TARIH" Type="smalldatetime" />
     <Property Name="ADET" Type="smallint" />
     <Property Name="FIYAT" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="URUNSERINO" Type="char" MaxLength="5" />
   </EntityType>
   <EntityType Name="TBL_URUNKABUL">
     <Key>
       <PropertyRef Name="ISLEMID" />
     </Key>
     <Property Name="ISLEMID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="URUN" Type="int" />
     <Property Name="CARI" Type="int" />
     <Property Name="PERSONEL" Type="smallint" />
     <Property Name="GELISTARIH" Type="smalldatetime" />
     <Property Name="CIKISTARIHI" Type="smalldatetime" />
+    <Property Name="URUNSERINO" Type="char" MaxLength="5" />
+    <Property Name="URUNDURUM" Type="bit" />
+    <Property Name="URUNDURUMDETAY" Type="varchar" MaxLength="30" />
   </EntityType>
   <EntityType Name="TBL_URUNTAKIP">
     <Key>
       <PropertyRef Name="TAKIPID" />
     </Key>
     <Property Name="TAKIPID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="URUN" Type="int" />
-    <Property Name="DURUM" Type="varchar" MaxLength="250" />
-    <Property Name="TARIH" Type="int" />
-    <Property Name="TAKIPKODU" Type="char" MaxLength="5" />
+    <Property Name="ACIKLAMA" Type="varchar" MaxLength="250" />
+    <Property Name="TARIH" Type="smalldatetime" />
+    <Property Name="SERINO" Type="char" MaxLength="5" />
   </EntityType>
   <Association Name="FK_TBL_FATURABILGI_TBL_CARI">
     <End Role="TBL_CARI" Type="Self.TBL_CARI" Multiplicity="0..1" />
@@ -195,6 +230,18 @@
       </Principal>
       <Dependent Role="TBL_FATURADETAY">
         <PropertyRef Name="FATURADETAYID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBL_ILCELER_TBL_ILLER">
+    <End Role="TBL_ILLER" Type="Self.TBL_ILLER" Multiplicity="1" />
+    <End Role="TBL_ILCELER" Type="Self.TBL_ILCELER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBL_ILLER">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="TBL_ILCELER">
+        <PropertyRef Name="sehir" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -282,30 +329,10 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TBL_URUNKABUL_TBL_URUN">
-    <End Role="TBL_URUN" Type="Self.TBL_URUN" Multiplicity="0..1" />
-    <End Role="TBL_URUNKABUL" Type="Self.TBL_URUNKABUL" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TBL_URUN">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="TBL_URUNKABUL">
-        <PropertyRef Name="URUN" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_TBL_URUNTAKIP_TBL_URUN">
-    <End Role="TBL_URUN" Type="Self.TBL_URUN" Multiplicity="0..1" />
-    <End Role="TBL_URUNTAKIP" Type="Self.TBL_URUNTAKIP" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TBL_URUN">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="TBL_URUNTAKIP">
-        <PropertyRef Name="URUN" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
+  <Function Name="makscari" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="makskategoriurun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="maksurunmarka" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="urunkategori" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="DbTeknikServisModelStoreContainer">
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_ADMIN" EntityType="Self.TBL_ADMIN" Schema="dbo" store:Type="Tables" />
@@ -315,6 +342,10 @@
     <EntitySet Name="TBL_FATURABILGI" EntityType="Self.TBL_FATURABILGI" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_FATURADETAY" EntityType="Self.TBL_FATURADETAY" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_GIDER" EntityType="Self.TBL_GIDER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_HAKKIMIZDA" EntityType="Self.TBL_HAKKIMIZDA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_ILCELER" EntityType="Self.TBL_ILCELER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_ILETISIM" EntityType="Self.TBL_ILETISIM" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_ILLER" EntityType="Self.TBL_ILLER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_KATEGORI" EntityType="Self.TBL_KATEGORI" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_NOTLARIM" EntityType="Self.TBL_NOTLARIM" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_PERSONEL" EntityType="Self.TBL_PERSONEL" Schema="dbo" store:Type="Tables" />
@@ -333,6 +364,10 @@
     <AssociationSet Name="FK_TBL_FATURADETAY_TBL_FATURABILGI" Association="Self.FK_TBL_FATURADETAY_TBL_FATURABILGI">
       <End Role="TBL_FATURABILGI" EntitySet="TBL_FATURABILGI" />
       <End Role="TBL_FATURADETAY" EntitySet="TBL_FATURADETAY" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBL_ILCELER_TBL_ILLER" Association="Self.FK_TBL_ILCELER_TBL_ILLER">
+      <End Role="TBL_ILLER" EntitySet="TBL_ILLER" />
+      <End Role="TBL_ILCELER" EntitySet="TBL_ILCELER" />
     </AssociationSet>
     <AssociationSet Name="FK_TBL_PERSONEL_TBL_DEPARTMAN" Association="Self.FK_TBL_PERSONEL_TBL_DEPARTMAN">
       <End Role="TBL_DEPARTMAN" EntitySet="TBL_DEPARTMAN" />
@@ -361,14 +396,6 @@
     <AssociationSet Name="FK_TBL_URUNKABUL_TBL_PERSONEL" Association="Self.FK_TBL_URUNKABUL_TBL_PERSONEL">
       <End Role="TBL_PERSONEL" EntitySet="TBL_PERSONEL" />
       <End Role="TBL_URUNKABUL" EntitySet="TBL_URUNKABUL" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TBL_URUNKABUL_TBL_URUN" Association="Self.FK_TBL_URUNKABUL_TBL_URUN">
-      <End Role="TBL_URUN" EntitySet="TBL_URUN" />
-      <End Role="TBL_URUNKABUL" EntitySet="TBL_URUNKABUL" />
-    </AssociationSet>
-    <AssociationSet Name="FK_TBL_URUNTAKIP_TBL_URUN" Association="Self.FK_TBL_URUNTAKIP_TBL_URUN">
-      <End Role="TBL_URUN" EntitySet="TBL_URUN" />
-      <End Role="TBL_URUNTAKIP" EntitySet="TBL_URUNTAKIP" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

@@ -37,7 +37,12 @@ namespace TeknikServis.Formlar
         private void FrmUrunListesi_Load(object sender, EventArgs e)
         {
             metot1();
-            lookUpEdit1.Properties.DataSource = db.TBL_KATEGORI.ToList();
+            lookUpEdit1.Properties.DataSource = (from x in db.TBL_KATEGORI
+                                                 select new
+                                                 {
+                                                     x.ID,
+                                                     x.AD
+                                                 }).ToList();
         }
 
         private void BtnKaydet_Click(object sender, EventArgs e)
@@ -57,12 +62,21 @@ namespace TeknikServis.Formlar
 
         private void gridView1_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
         {
-            labelControl7.Text = gridView1.GetFocusedRowCellValue("ID").ToString();
-            TxtUrunAd.Text = gridView1.GetFocusedRowCellValue("AD").ToString();
-            TxtMarka.Text = gridView1.GetFocusedRowCellValue("MARKA").ToString();
-            TxtAlisFiyat.Text = gridView1.GetFocusedRowCellValue("ALISFIYAT").ToString();
-            TxtSatisFiyat.Text = gridView1.GetFocusedRowCellValue("SATISFIYAT").ToString();
-            TxtStok.Text = gridView1.GetFocusedRowCellValue("STOK").ToString();
+            try
+            {
+                TxtID.Text = gridView1.GetFocusedRowCellValue("ID").ToString();
+                TxtUrunAd.Text = gridView1.GetFocusedRowCellValue("AD").ToString();
+                TxtMarka.Text = gridView1.GetFocusedRowCellValue("MARKA").ToString();
+                TxtAlisFiyat.Text = gridView1.GetFocusedRowCellValue("ALISFIYAT").ToString();
+                TxtSatisFiyat.Text = gridView1.GetFocusedRowCellValue("SATISFIYAT").ToString();
+                TxtStok.Text = gridView1.GetFocusedRowCellValue("STOK").ToString();
+                lookUpEdit1.Text = gridView1.GetFocusedRowCellValue("KATEGORI").ToString();
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Hata");
+            }
         }
 
         private void BtnSil_Click(object sender, EventArgs e)
@@ -91,6 +105,16 @@ namespace TeknikServis.Formlar
         private void BtnListele_Click(object sender, EventArgs e)
         {
             metot1();
+        }
+
+        private void BtnTemizle_Click(object sender, EventArgs e)
+        {
+            TxtID.Text = "";
+            TxtUrunAd.Text = "";
+            TxtMarka.Text = "";
+            TxtAlisFiyat.Text = "";
+            TxtSatisFiyat.Text = "";
+            TxtStok.Text = "";
         }
     }
 }

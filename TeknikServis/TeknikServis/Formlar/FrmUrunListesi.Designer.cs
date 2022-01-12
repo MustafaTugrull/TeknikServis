@@ -51,6 +51,7 @@ namespace TeknikServis.Formlar
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.TxtUrunAd = new DevExpress.XtraEditors.TextEdit();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.BtnTemizle = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
@@ -86,6 +87,7 @@ namespace TeknikServis.Formlar
             // 
             // groupControl1
             // 
+            this.groupControl1.Controls.Add(this.BtnTemizle);
             this.groupControl1.Controls.Add(this.TxtID);
             this.groupControl1.Controls.Add(this.labelControl7);
             this.groupControl1.Controls.Add(this.BtnListele);
@@ -261,6 +263,16 @@ namespace TeknikServis.Formlar
             this.labelControl1.TabIndex = 5;
             this.labelControl1.Text = "ÜRÜN ADI:";
             // 
+            // BtnTemizle
+            // 
+            this.BtnTemizle.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("BtnTemizle.ImageOptions.Image")));
+            this.BtnTemizle.Location = new System.Drawing.Point(87, 413);
+            this.BtnTemizle.Name = "BtnTemizle";
+            this.BtnTemizle.Size = new System.Drawing.Size(209, 35);
+            this.BtnTemizle.TabIndex = 24;
+            this.BtnTemizle.Text = "TEMİZLE";
+            this.BtnTemizle.Click += new System.EventHandler(this.BtnTemizle_Click);
+            // 
             // FrmUrunListesi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -269,7 +281,7 @@ namespace TeknikServis.Formlar
             this.Controls.Add(this.groupControl1);
             this.Controls.Add(this.gridControl1);
             this.Name = "FrmUrunListesi";
-            this.Text = "FrmUrunListesi";
+            this.Text = "Ürün Listesi";
             this.Load += new System.EventHandler(this.FrmUrunListesi_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
@@ -310,5 +322,6 @@ namespace TeknikServis.Formlar
         private DevExpress.XtraEditors.SimpleButton BtnListele;
         private DevExpress.XtraEditors.TextEdit TxtID;
         private DevExpress.XtraEditors.LabelControl labelControl7;
+        private DevExpress.XtraEditors.SimpleButton BtnTemizle;
     }
 }

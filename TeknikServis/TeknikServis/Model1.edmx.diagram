@@ -30,8 +30,11 @@
         <AssociationConnector Association="DbTeknikServisModel.FK_TBL_URUNHAREKET_TBL_PERSONEL" ManuallyRouted="false" />
         <AssociationConnector Association="DbTeknikServisModel.FK_TBL_URUNKABUL_TBL_PERSONEL" ManuallyRouted="false" />
         <AssociationConnector Association="DbTeknikServisModel.FK_TBL_URUNHAREKET_TBL_URUN" ManuallyRouted="false" />
-        <AssociationConnector Association="DbTeknikServisModel.FK_TBL_URUNKABUL_TBL_URUN" ManuallyRouted="false" />
-        <AssociationConnector Association="DbTeknikServisModel.FK_TBL_URUNTAKIP_TBL_URUN" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DbTeknikServisModel.TBL_HAKKIMIZDA" Width="1.5" PointX="12.375" PointY="8.75" />
+        <EntityTypeShape EntityType="DbTeknikServisModel.TBL_ILETISIM" Width="1.5" PointX="12.375" PointY="11.75" />
+        <EntityTypeShape EntityType="DbTeknikServisModel.TBL_ILCELER" Width="1.5" PointX="9.5" PointY="13.75" />
+        <EntityTypeShape EntityType="DbTeknikServisModel.TBL_ILLER" Width="1.5" PointX="7.375" PointY="13.75" />
+        <AssociationConnector Association="DbTeknikServisModel.FK_TBL_ILCELER_TBL_ILLER" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
